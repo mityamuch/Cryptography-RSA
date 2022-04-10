@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA.Client", "RSA\RSA.Client.csproj", "{96348BA7-A899-4BBD-BAEA-8AC6C64AE70F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRSA", "MyRSA\MyRSA.csproj", "{14F53D50-0715-45F1-8DD0-C99B428D115B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Core", "MVVM.Core\MVVM.Core.csproj", "{980FCAE1-722A-457C-A298-2DB0A158DC09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96348BA7-A899-4BBD-BAEA-8AC6C64AE70F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96348BA7-A899-4BBD-BAEA-8AC6C64AE70F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96348BA7-A899-4BBD-BAEA-8AC6C64AE70F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96348BA7-A899-4BBD-BAEA-8AC6C64AE70F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F53D50-0715-45F1-8DD0-C99B428D115B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F53D50-0715-45F1-8DD0-C99B428D115B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F53D50-0715-45F1-8DD0-C99B428D115B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F53D50-0715-45F1-8DD0-C99B428D115B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{980FCAE1-722A-457C-A298-2DB0A158DC09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{980FCAE1-722A-457C-A298-2DB0A158DC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{980FCAE1-722A-457C-A298-2DB0A158DC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{980FCAE1-722A-457C-A298-2DB0A158DC09}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEBC41F8-A6FC-442A-9628-C6A79CD321D2}
+	EndGlobalSection
+EndGlobal
