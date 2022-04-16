@@ -1,21 +1,11 @@
 using System;
+using System.Numerics;
 
 namespace MyRSA
 {
-    public class LegandrYakobiService
+    internal class LegandrYakobiService
     {
-        private static ulong GCD(ulong a, ulong b)
-        {
-            while (a != 0 && b != 0)
-            {
-                if (a > b)
-                    a %= b;
-                else
-                    b %= a;
-            }
-
-            return a | b;
-        }
+        
         public static int GetLegandrSymbol(int a, int p)
         {
             if (a == 1)
