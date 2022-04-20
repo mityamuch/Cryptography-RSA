@@ -28,7 +28,7 @@ namespace MyRSA
         }
 
 
-        public static int  GetYakobiSymbol(int a,int b)
+        public static BigInteger GetYakobiSymbol(BigInteger a, BigInteger b)
         {
 
             if (AuxiliaryFunctions.Gcd(a, b) != 0)
