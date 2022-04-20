@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Numerics;
 
 namespace MyRSA
@@ -28,13 +28,41 @@ namespace MyRSA
         }
 
 
-        public static int  GetYakobiSymbol(int a,int n)
+        public static int  GetYakobiSymbol(int a,int b)
         {
 
+            if (AuxiliaryFunctions.Gcd(a, b) != 0)
+                return 0;
+            int r = 1;
+            if (a < 0)
+            {
+                a = -a;
+                if (b % 4 == 3)
+                    r = -r;
+            }
+            do
+            {
+                int t = 0;
+                while (a % 2 == 0)
+                {
+                    t++;
+                    a = a / 2;
+                }
+                if (t % 2 == 1)
+                {
+                    if (b % 8 == 3 || b % 8 == 5)
+                        r = -r;
+                }
 
-
-
-            return 1;
+                if (a % 4 == b % 4)
+                {
+                    r = -r;
+                    var c = a;
+                    a = b % c;
+                    b = c;
+                }
+            }while (a != 0);
+            return r;
         }
        
 

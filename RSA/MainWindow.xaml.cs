@@ -28,7 +28,7 @@ namespace RSA
             FermTest f=new FermTest();
             MillerRabinTest m = new MillerRabinTest();
             SoloveyShtrassenTest s = new SoloveyShtrassenTest();
-            test.Text =Convert.ToString(s.CheckSimplicity(807979, 0.99));
-        }
+            //test.Text =Convert.ToString(s.CheckSimplicity(807979, 0.99));
+            test.Text = Convert.ToString(LegandrYakobiService.GetYakobiSymbol(219,383));        }
     }
 }
