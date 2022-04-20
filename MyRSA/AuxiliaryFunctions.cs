@@ -12,33 +12,7 @@ namespace MyRSA
 			if (b == 0)
 				return a;
 			return Gcd(b, a % b);
-
 		}
-
-		public static BigInteger Mul(BigInteger a, BigInteger b, BigInteger m)
-		{
-			if (b == 1)
-				return a;
-			if (b % 2 == 0)
-			{
-				BigInteger t = Mul(a, b / 2, m);
-				return (2 * t) % m;
-			}
-			return (Mul(a, b - 1, m) + a) % m;
-		}
-
-		public static BigInteger Pow(BigInteger a, BigInteger b, BigInteger m)
-		{
-			if (b == 0)
-				return 1;
-			if (b % 2 == 0)
-			{
-				BigInteger t = Pow(a, b / 2, m);
-				return Mul(t, t, m) % m;
-			}
-			return (Mul(Pow(a, b - 1, m), a, m)) % m;
-		}
-
 
 		public static BigInteger RandomInRange(RandomNumberGenerator rng, BigInteger min, BigInteger max)
 		{
@@ -57,7 +31,6 @@ namespace MyRSA
 			var value = randomInRangeFromZeroToPositive(rng, max) - offset;
 			return value;
 		}
-
 		private static BigInteger randomInRangeFromZeroToPositive(RandomNumberGenerator rng, BigInteger max)
 		{
 			BigInteger value;

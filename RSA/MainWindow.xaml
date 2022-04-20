@@ -11,6 +11,6 @@
         <ViewModels:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-
+        <TextBlock x:Name="test" FontSize="100"></TextBlock>
     </Grid>
 </Window>

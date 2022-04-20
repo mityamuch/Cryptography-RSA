@@ -3,27 +3,37 @@ using System.Numerics;
 
 namespace MyRSA
 {
-    internal class LegandrYakobiService
+    public class LegandrYakobiService
     {
         
-        public static int GetLegandrSymbol(int a, int p)
+        public static BigInteger GetLegandrSymbol(BigInteger a, BigInteger p)
         {
-            if (a == 1)
-                return 1;
-            else if (a % 2==0)
-            {
-                return (int)(GetLegandrSymbol(a / 2, p) * Math.Pow(-1, ((p * p - 1) / 8)));
+            if( p < 2)
+			    throw new Exception("p must not be < 2");
+            if (a == 0 || a == 1)
+                return a;
+            BigInteger r;
+            if (a % 2 == 0) {
+                r= GetLegandrSymbol(a / 2, p);
+                if (((p * p - 1) & 8) != 0)
+				    r *= -1;
             }
-            else
+            else 
             {
-                return (int)(GetLegandrSymbol(p % a, a) * Math.Pow(-1,(a-1)*(p-1)/ 4));
+                r = GetLegandrSymbol(p % a, a);
+                if (((a - 1) * (p - 1) & 4) != 0)
+                    r *= -1;
             }
-
+            return r;
         }
 
 
         public static int  GetYakobiSymbol(int a,int n)
         {
+
+
+
+
             return 1;
         }
        
