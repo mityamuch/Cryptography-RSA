@@ -8,14 +8,20 @@ using System.Threading.Tasks;
 
 namespace MyRSA
 {
-    interface ISimplicityTest
+    public interface ISimplicityTest
     {
-        public bool CheckSimplicity(BigInteger value,double probabilityOfSimplicity);
+        bool CheckSimplicity(BigInteger value,double probabilityOfSimplicity);
+
+        string Name { get; }
+
+        
     }
 
 
     public class MillerRabinTest:ISimplicityTest
     {
+
+        public string Name => "Miller-Rabin";
         
         public bool CheckSimplicity(BigInteger value,double probabilityOfSimplicity)
         {
@@ -35,8 +41,7 @@ namespace MyRSA
                 return true;
             if (value < 2 || value % 2 == 0)
                 return false;
-
-            int T = 100;
+            int T = 10;
             RandomNumberGenerator rnd = RandomNumberGenerator.Create();
             int s = 0;
 
@@ -72,6 +77,8 @@ namespace MyRSA
     public class FermTest : ISimplicityTest
     {
 
+        public string Name => "Ferma";
+        
         public bool CheckSimplicity(BigInteger value, double probabilityOfSimplicity)
         {
             /*1. В цикле i от 1 до t выполнить:
@@ -85,11 +92,8 @@ namespace MyRSA
             if (value < 2 || value % 2 == 0)
                 return false;
 
-            int T = 100;
+            int T = 10;
             RandomNumberGenerator rnd = RandomNumberGenerator.Create();
-
-            if (value == 2)
-                return true;
 
             for (int i = 0; i < T; i++)
             {
@@ -110,6 +114,8 @@ namespace MyRSA
 
     public class SoloveyShtrassenTest : ISimplicityTest
     {
+        public string Name => "Solovey-Shtrassen";
+
         /*1.В цикле i от 1 до k выполнить:
             1.1. Выбрать a  - случайное целое от 2 до n-1 , включительно;
             1.2. Если НОД(a, n) > 1, тогда вернуть (составное);
@@ -122,7 +128,7 @@ namespace MyRSA
             if (value < 2 || value % 2 == 0)
                 return false;
 
-            int T = 100;
+            int T = 10;
             RandomNumberGenerator rnd = RandomNumberGenerator.Create();
 
             for (int i = 0; i < T; i++)
@@ -131,7 +137,7 @@ namespace MyRSA
                 if (AuxiliaryFunctions.Gcd(a, value) > 1)
                     return false;
                 BigInteger y = BigInteger.ModPow(a, (value - 1) / 2,value);
-                BigInteger x = LegandrYakobiService.GetLegandrSymbol(a, value);
+                BigInteger x = LegandrYakobiService.GetYakobiSymbol(a, value);
                 if (x < 0)
                     x += value;
                 if (y != x % value)

@@ -9,13 +9,16 @@ namespace MyRSA
 
 		public static BigInteger Gcd(BigInteger a, BigInteger b)
 		{
-			if (b == 0)
-				return a;
-			return Gcd(b, a % b);
+			return BigInteger.GreatestCommonDivisor(a, b);
 		}
 
 		public static BigInteger RandomInRange(RandomNumberGenerator rng, BigInteger min, BigInteger max)
 		{
+			var bytes = new byte[10];
+
+			new Random().NextBytes(bytes);
+			new BigInteger(bytes);
+
 			if (min > max)
 			{
 				var buff = min;

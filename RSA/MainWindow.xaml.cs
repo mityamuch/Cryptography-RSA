@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,10 +26,30 @@ namespace RSA
         public MainWindow()
         {
             InitializeComponent();
-            FermTest f=new FermTest();
-            MillerRabinTest m = new MillerRabinTest();
-            SoloveyShtrassenTest s = new SoloveyShtrassenTest();
-            //test.Text =Convert.ToString(s.CheckSimplicity(807979, 0.99));
-            test.Text = Convert.ToString(LegandrYakobiService.GetYakobiSymbol(219,383));        }
+
+            var tests = new ISimplicityTest[]
+            {
+                new FermTest(),
+                new MillerRabinTest(),
+                new SoloveyShtrassenTest()
+            };
+
+            var sb = new StringBuilder();
+
+            BigInteger valueToTest = BigInteger.Parse("9746347772161");
+            const double probability = 0.99;
+
+            sb.AppendLine($"{valueToTest} testing with probability = {probability:N2}:");
+
+            foreach (var test in tests)
+            {
+                sb.AppendLine($"{test.Name}: {test.CheckSimplicity(valueToTest, probability)}");
+            }
+
+            test.Text = sb.ToString();
+
+            //test.Text = Convert.ToString(s.CheckSimplicity(13, 0.99));
+            //test.Text = Convert.ToString(LegandrYakobiService.GetYakobiSymbol(219,383));        
+        }
     }
 }

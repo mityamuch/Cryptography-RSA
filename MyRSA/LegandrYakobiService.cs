@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace MyRSA
 {
-    public class LegandrYakobiService
+    public static class LegandrYakobiService
     {
         
         public static BigInteger GetLegandrSymbol(BigInteger a, BigInteger p)
@@ -31,7 +31,7 @@ namespace MyRSA
         public static BigInteger GetYakobiSymbol(BigInteger a, BigInteger b)
         {
 
-            if (AuxiliaryFunctions.Gcd(a, b) != 0)
+            if (AuxiliaryFunctions.Gcd(a, b) != 1)
                 return 0;
             int r = 1;
             if (a < 0)
@@ -40,6 +40,7 @@ namespace MyRSA
                 if (b % 4 == 3)
                     r = -r;
             }
+
             do
             {
                 int t = 0;
@@ -50,18 +51,23 @@ namespace MyRSA
                 }
                 if (t % 2 == 1)
                 {
-                    if (b % 8 == 3 || b % 8 == 5)
+                    var mod = b % 8;
+                    if (mod == 3 || mod == 5)
                         r = -r;
                 }
 
-                if (a % 4 == b % 4)
+                var amod4 = a % 4;
+
+                if (amod4 == b % 4 && amod4 == 3)
                 {
                     r = -r;
-                    var c = a;
-                    a = b % c;
-                    b = c;
                 }
-            }while (a != 0);
+
+                var c = a;
+                a = b % c;
+                b = c;
+            } while (a != 0);
+
             return r;
         }
        
