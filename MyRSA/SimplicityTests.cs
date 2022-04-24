@@ -14,6 +14,8 @@ namespace MyRSA
 
         string Name { get; }
 
+        int GetCountRounds(double probabilityOfSimplicity);
+
         
     }
 
@@ -70,8 +72,18 @@ namespace MyRSA
             }
             return true;
         }
-       
 
+        public int GetCountRounds(double probabilityOfSimplicity) 
+        {
+            int count = 0;
+            double extra = 1;
+            while (1 - extra >= probabilityOfSimplicity)
+            {
+                count++;
+                extra *= 0.25;
+            }
+            return count;
+        }
     }
 
     public class FermTest : ISimplicityTest
@@ -108,7 +120,17 @@ namespace MyRSA
             return true;
         }
 
-
+        public int GetCountRounds(double probabilityOfSimplicity) 
+        {
+            int count = 0;
+            double extra = 1;
+            while (1 - extra <= probabilityOfSimplicity)
+            {
+                count++;
+                extra *= 0.5;
+            }
+            return count;
+        }
     }
 
 
@@ -150,6 +172,16 @@ namespace MyRSA
             return true;
         }
 
-
+        public int GetCountRounds(double probabilityOfSimplicity)
+        {
+            int count = 0;
+            double extra=1;
+            while (1 - extra <= probabilityOfSimplicity)
+            {
+                count++;
+                extra *= 0.5;
+            }
+            return count;
+        }
     }
 }
