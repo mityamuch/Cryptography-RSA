@@ -48,8 +48,13 @@ namespace RSA
 
             test.Text = sb.ToString();
 
-            //test.Text = Convert.ToString(s.CheckSimplicity(13, 0.99));
-            //test.Text = Convert.ToString(LegandrYakobiService.GetYakobiSymbol(219,383));        
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            VinnerAtack atack=new VinnerAtack();
+            atack.Attack(9449868410449,6792605526025);
         }
     }
 }

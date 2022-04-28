@@ -11,6 +11,7 @@
         <ViewModels:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <TextBlock x:Name="test" FontSize="70"></TextBlock>
+        <TextBlock x:Name="test" FontSize="50"></TextBlock>
+        <Button Height="40" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="VinnerAtack" Click="Button_Click"></Button>
     </Grid>
 </Window>
