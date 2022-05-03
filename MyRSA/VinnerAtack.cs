@@ -60,9 +60,9 @@ namespace MyRSA
                 var current = contfList[i];
                 if (current.Q > limitD)
                     break;
-                // С = М^^E mod N
+                // С = М^E mod N
                 var isC = BigInteger.ModPow(myM, isE, isN);
-                // M = C^^D mod N
+                // M = C^D mod N
                 var myM2 = BigInteger.ModPow(isC, current.Q, isN);
 
                 string path = "AtackVinnerProtocol.txt";
