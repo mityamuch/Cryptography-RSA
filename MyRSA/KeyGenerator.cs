@@ -37,13 +37,16 @@ namespace MyRSA
         public BigInteger GeneratePrimeDigit()
         {
             BigInteger digit = GetRandCount(_length);
+            BigInteger minpq =new BigInteger(1) << _length-1;
+
+
             switch (_mode)
             {
                 case SimplifyTestMode.MillerRabin:
                     {
                         MillerRabinTest test = new MillerRabinTest();
                         
-                        while (!test.CheckSimplicity(digit,_probabilityOfSimplicity))
+                        while (digit<=minpq&&!test.CheckSimplicity(digit,_probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }
@@ -52,7 +55,7 @@ namespace MyRSA
                 case SimplifyTestMode.Ferm:
                     {
                         FermTest test = new FermTest();
-                        while (!test.CheckSimplicity(digit, _probabilityOfSimplicity))
+                        while (digit <= minpq&&!test.CheckSimplicity(digit, _probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }
@@ -61,7 +64,7 @@ namespace MyRSA
                 case SimplifyTestMode.SoloveyShtrasen:
                     {
                         SoloveyShtrassenTest test = new SoloveyShtrassenTest();
-                        while (!test.CheckSimplicity(digit, _probabilityOfSimplicity))
+                        while (digit <= minpq&&!test.CheckSimplicity(digit, _probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }

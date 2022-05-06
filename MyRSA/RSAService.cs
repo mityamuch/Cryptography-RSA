@@ -65,23 +65,23 @@ namespace MyRSA
             BigInteger d = _d;
             BigInteger n = _n;
 
-                List<string> input = new List<string>();
+            List<string> input = new List<string>();
 
-                StreamReader sr = new StreamReader("out1.txt");
+            StreamReader sr = new StreamReader("out1.txt");
 
-                while (!sr.EndOfStream)
-                {
-                    input.Add(sr.ReadLine());
-                }
+            while (!sr.EndOfStream)
+            {
+                input.Add(sr.ReadLine());
+            }
 
-                sr.Close();
+            sr.Close();
 
-                string result = RSA_DecryptString(input, d, n);
-                StreamWriter sw = new StreamWriter("out2.txt");
-                sw.WriteLine(result);
-                sw.Close();
+            string result = RSA_DecryptString(input, d, n);
+            StreamWriter sw = new StreamWriter("out2.txt");
+            sw.WriteLine(result);
+            sw.Close();
 
-                Process.Start("out2.txt");
+            Process.Start("out2.txt");
         }
 
         private List<string> RSA_EncryptString(string s, BigInteger e, BigInteger n)
@@ -132,7 +132,7 @@ namespace MyRSA
 
         private BigInteger Calculate_e(BigInteger d, BigInteger m)
         {
-            BigInteger e = 10;
+            BigInteger e = 1<<16 + 1;
 
             while (true)
             {
@@ -146,14 +146,9 @@ namespace MyRSA
         }
         private BigInteger Calculate_d(BigInteger m)
         {
+            
             BigInteger d = m - 1;
-
-            for (long i = 2; i <= m; i++)
-                if ((m % i == 0) && (d % i == 0)) //если имеют общие делители
-                {
-                    d--;
-                    i = 1;
-                }
+            AuxiliaryFunctions.Gcd(d,m);
 
             return d;
         }

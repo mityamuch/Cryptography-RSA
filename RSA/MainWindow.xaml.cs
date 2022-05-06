@@ -1,4 +1,5 @@
-﻿using MyRSA;
+﻿using Microsoft.Win32;
+using MyRSA;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,19 @@ namespace RSA
         {
             VinnerAtack atack=new VinnerAtack();
             atack.Attack(9449868410449,6792605526025);
+        }
+
+        private void RSAtest_Click(object sender, RoutedEventArgs e)
+        {
+            string path = "";
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                path = openFileDialog.FileName;
+
+
+
+
+
         }
     }
 }

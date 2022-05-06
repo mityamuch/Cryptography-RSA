@@ -1,0 +1,8 @@
+is fraction: 0/1. Need check denominator: 1. Invalid
+is fraction: 1/1. Need check denominator: 1. Invalid
+is fraction: 2/3. Need check denominator: 3. Invalid
+is fraction: 3/4. Need check denominator: 4. Invalid
+is fraction: 5/7. Need check denominator: 7. Invalid
+is fraction: 18/25. Need check denominator: 25. Invalid
+is fraction: 23/32. Need check denominator: 32. Invalid
+is fraction: 409/569. Need check denominator: 569. VALID VALUE
