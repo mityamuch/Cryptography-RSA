@@ -105,9 +105,9 @@ namespace MyRSA
             (BigInteger nod, BigInteger x, BigInteger y) = euclid_ex(e, m);
 
             if (x > 0)
-                return x;
+                return x+e*m;
             else
-                return x+(y/e + 1)*m;
+                return x+(y/e + 1)*m + e * m;
         }
     }
 }
