@@ -60,15 +60,10 @@ namespace RSA
 
         private void RSAtest_Click(object sender, RoutedEventArgs e)
         {
-            string path = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-                path = openFileDialog.FileName;
+            RSAService service = new RSAService(SimplifyTestMode.SoloveyShtrasen,0.99,512);
 
-
-
-
-
+            service.Encrypt();
+            service.Decrypt();
         }
     }
 }

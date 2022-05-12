@@ -12,18 +12,16 @@ namespace MyRSA
 {
     public class RSAService
     {
-        private KeyGenerator _keyGenerator;
+        private SimpleGenerator _keyGenerator;
         private BigInteger _d;
         private BigInteger _n;
-        private char[] characters = new char[] { '#', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И',
-                                                'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С',
-                                                'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ',
-                                                'Э', 'Ю', 'Я', ' ', '1', '2', '3', '4', '5', '6', '7',
-                                                '8', '9', '0' };
+        private int _bitLength;
 
-        public RSAService(SimplifyTestMode mode,double probabilityofsimplicity,int BitLength)
+
+        public RSAService(SimplifyTestMode mode,double probabilityofsimplicity,int bitLength)
         {
-            _keyGenerator = new KeyGenerator(mode,probabilityofsimplicity,BitLength);
+            _bitLength = bitLength;
+            _keyGenerator = new SimpleGenerator(mode,probabilityofsimplicity, bitLength);
         }
 
         public void Encrypt()
@@ -31,126 +29,85 @@ namespace MyRSA
 
             BigInteger p = _keyGenerator.GeneratePrimeDigit();
             BigInteger q = _keyGenerator.GeneratePrimeDigit();
-            string s = "";
 
-            StreamReader sr = new StreamReader("in.txt");
+            BigInteger content = new BigInteger(File.ReadAllBytes("../../../../in.txt"), true);
 
-            while (!sr.EndOfStream)
-            {
-                s += sr.ReadLine();
-            }
-            sr.Close();
-            s = s.ToUpper();
+            if (content.GetBitLength() >= _bitLength)
+                throw new Exception("File too long!");
+
+
             BigInteger n = p * q;
             BigInteger m = (p - 1) * (q - 1);
-            BigInteger d = Calculate_d(m);
-            BigInteger e_ = Calculate_e(d, m);
+            BigInteger e = Calculate_e(m);
+            BigInteger d = Calculate_d(e, m);
 
-            List<string> result = RSA_EncryptString(s, e_, n);
+            BigInteger res = RSA_EncryptString(content, e, n);
 
-            StreamWriter sw = new StreamWriter("out1.txt");
-            foreach (string item in result)
-                sw.WriteLine(item);
-            sw.Close();
+            File.WriteAllText("../../../../out1.txt", System.Convert.ToBase64String(res.ToByteArray()));
+
             _d = d;
             _n = n;
 
-            Process.Start("out1.txt");
+            System.Diagnostics.Process txt = new System.Diagnostics.Process();
+            txt.StartInfo.FileName = "notepad.exe";
+            txt.StartInfo.Arguments = @"../../../../out1.txt";
+            txt.Start();
 
         }
 
         public void Decrypt()
         {
-
             BigInteger d = _d;
             BigInteger n = _n;
 
-            List<string> input = new List<string>();
+            BigInteger content = new BigInteger(System.Convert.FromBase64String(File.ReadAllText("../../../../out1.txt")));
 
-            StreamReader sr = new StreamReader("out1.txt");
+            BigInteger res = RSA_DecryptString(content, d, n);
 
-            while (!sr.EndOfStream)
-            {
-                input.Add(sr.ReadLine());
-            }
+            File.WriteAllBytes("../../../../out2.txt", res.ToByteArray(true));
 
-            sr.Close();
-
-            string result = RSA_DecryptString(input, d, n);
-            StreamWriter sw = new StreamWriter("out2.txt");
-            sw.WriteLine(result);
-            sw.Close();
-
-            Process.Start("out2.txt");
+            System.Diagnostics.Process txt = new System.Diagnostics.Process();
+            txt.StartInfo.FileName = "notepad.exe";
+            txt.StartInfo.Arguments = @"../../../../out2.txt";
+            txt.Start();
         }
 
-        private List<string> RSA_EncryptString(string s, BigInteger e, BigInteger n)
+        private BigInteger RSA_EncryptString(BigInteger s, BigInteger e, BigInteger n)
         {
-            List<string> result = new List<string>();
-
-            BigInteger bi;
-
-            for (int i = 0; i < s.Length; i++)
-            {
-                int index = Array.IndexOf(characters, s[i]);
-
-                bi = new BigInteger(index);
-                bi = BigInteger.Pow(bi, (int)e);
-
-                BigInteger n_ = new BigInteger((int)n);
-
-                bi = bi % n_;
-
-                result.Add(bi.ToString());
-            }
-
-            return result;
+            return BigInteger.ModPow(s, e, n);
         }
 
-        private string RSA_DecryptString(List<string> input, BigInteger d, BigInteger n)
+        private BigInteger RSA_DecryptString(BigInteger input, BigInteger d, BigInteger n)
         {
-            string result = "";
-
-            BigInteger bi;
-
-            foreach (string item in input)
-            {
-                bi = new BigInteger(Convert.ToDouble(item));
-                bi = BigInteger.Pow(bi, (int)d);
-
-                BigInteger n_ = new BigInteger((int)n);
-
-                bi = bi % n_;
-
-                int index = Convert.ToInt32(bi.ToString());
-
-                result += characters[index].ToString();
-            }
-
-            return result;
+            return BigInteger.ModPow(input, d, n);
         }
 
-        private BigInteger Calculate_e(BigInteger d, BigInteger m)
+        private BigInteger Calculate_e(BigInteger m)
         {
-            BigInteger e = 1<<16 + 1;
-
-            while (true)
-            {
-                if ((e * d) % m == 1)
-                    break;
-                else
-                    e++;
-            }
+            BigInteger e = (1 << 16) + 1;
+            while (AuxiliaryFunctions.Gcd(e, m) != 1)
+                e+=2;
 
             return e;
         }
-        private BigInteger Calculate_d(BigInteger m)
-        {
-            
-            BigInteger d = m - 1;
-            AuxiliaryFunctions.Gcd(d,m);
 
-            return d;
+        private (BigInteger, BigInteger, BigInteger) euclid_ex(BigInteger a, BigInteger b)
+        {
+            if (a == 0)
+        		return (b, 0, 1);
+
+            (BigInteger nod, BigInteger x, BigInteger y) = euclid_ex(b % a, a);
+            return (nod, y - (b/a)*x, x);
+        }
+
+        private BigInteger Calculate_d(BigInteger e, BigInteger m)
+        {
+            (BigInteger nod, BigInteger x, BigInteger y) = euclid_ex(e, m);
+
+            if (x > 0)
+                return x;
+            else
+                return x+(y/e + 1)*m;
         }
     }
 }

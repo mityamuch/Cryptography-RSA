@@ -15,7 +15,7 @@ namespace MyRSA
 
     #endregion
 
-    internal class KeyGenerator
+    internal class SimpleGenerator
     {
 
         private SimplifyTestMode _mode;
@@ -26,7 +26,7 @@ namespace MyRSA
         
 
 
-        public KeyGenerator(SimplifyTestMode mode, double probabilityOfSimplicity, int BitLength)
+        public SimpleGenerator(SimplifyTestMode mode, double probabilityOfSimplicity, int BitLength)
         {
             _mode = mode;
             _probabilityOfSimplicity = probabilityOfSimplicity;
@@ -46,7 +46,7 @@ namespace MyRSA
                     {
                         MillerRabinTest test = new MillerRabinTest();
                         
-                        while (digit<=minpq&&!test.CheckSimplicity(digit,_probabilityOfSimplicity))
+                        while (digit<=minpq||!test.CheckSimplicity(digit,_probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }
@@ -55,7 +55,7 @@ namespace MyRSA
                 case SimplifyTestMode.Ferm:
                     {
                         FermTest test = new FermTest();
-                        while (digit <= minpq&&!test.CheckSimplicity(digit, _probabilityOfSimplicity))
+                        while (digit <= minpq || !test.CheckSimplicity(digit, _probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }
@@ -64,7 +64,7 @@ namespace MyRSA
                 case SimplifyTestMode.SoloveyShtrasen:
                     {
                         SoloveyShtrassenTest test = new SoloveyShtrassenTest();
-                        while (digit <= minpq&&!test.CheckSimplicity(digit, _probabilityOfSimplicity))
+                        while (digit <= minpq || !test.CheckSimplicity(digit, _probabilityOfSimplicity))
                         {
                             digit = GetRandCount(_length);
                         }
@@ -82,8 +82,7 @@ namespace MyRSA
         {
             byte[] count = new byte[bits / 8];
             _random.NextBytes(count);
-            BigInteger result = new BigInteger(count);
-            return result > 0 ? result : -result;
+            return new BigInteger(count, true);
         }
     }
 }
