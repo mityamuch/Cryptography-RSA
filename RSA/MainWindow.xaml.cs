@@ -65,22 +65,22 @@ namespace RSA
             {
                 RSAService service = new RSAService(SimplifyTestMode.SoloveyShtrasen, 0.99, 512);
 
-                BigInteger content = new BigInteger(File.ReadAllBytes("../../../../in.txt"), true);
-                File.WriteAllText("../../../../out1.txt", System.Convert.ToBase64String(service.Encrypt(content)));
+                BigInteger content = new BigInteger(File.ReadAllBytes(Directory.GetCurrentDirectory() + "/in.txt"), true);
+                File.WriteAllText(Directory.GetCurrentDirectory()+ "/out1.txt", System.Convert.ToBase64String(service.Encrypt(content)));
 
 
 
                 System.Diagnostics.Process txt = new System.Diagnostics.Process();
                 txt.StartInfo.FileName = "notepad.exe";
-                txt.StartInfo.Arguments = @"../../../../out1.txt";
+                txt.StartInfo.Arguments = @Directory.GetCurrentDirectory() + "/out1.txt";
                 txt.Start();
 
-                BigInteger content1 = new BigInteger(System.Convert.FromBase64String(File.ReadAllText("../../../../out1.txt")));
-                File.WriteAllBytes("../../../../out2.txt", service.Decrypt(content1));
+                BigInteger content1 = new BigInteger(System.Convert.FromBase64String(File.ReadAllText(Directory.GetCurrentDirectory() + "/out1.txt")));
+                File.WriteAllBytes(Directory.GetCurrentDirectory() + "/out2.txt", service.Decrypt(content1));
 
                 System.Diagnostics.Process txt1 = new System.Diagnostics.Process();
                 txt1.StartInfo.FileName = "notepad.exe";
-                txt1.StartInfo.Arguments = @"../../../../out2.txt";
+                txt1.StartInfo.Arguments = @Directory.GetCurrentDirectory() + "/out2.txt";
                 txt1.Start();
 
 
