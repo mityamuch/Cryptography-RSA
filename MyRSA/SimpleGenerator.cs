@@ -84,5 +84,18 @@ namespace MyRSA
             _random.NextBytes(count);
             return new BigInteger(count, true);
         }
+
+        private BigInteger GetAnotherBigInteger(int bits,byte[] digit)
+        {
+            byte[] count = new byte[bits / 8];
+            _random.NextBytes(count);
+            if (digit[1] == 0)
+                count[1] = 1;
+            else
+                count[1] = 0;
+            return new BigInteger(count, true);
+
+        }
+
     }
 }
