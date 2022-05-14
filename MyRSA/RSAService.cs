@@ -24,13 +24,11 @@ namespace MyRSA
             _keyGenerator = new SimpleGenerator(mode,probabilityofsimplicity, bitLength);
         }
 
-        public void Encrypt()
+        public byte[] Encrypt(BigInteger content)
         {
 
             BigInteger p = _keyGenerator.GeneratePrimeDigit();
             BigInteger q = _keyGenerator.GeneratePrimeDigit();
-
-            BigInteger content = new BigInteger(File.ReadAllBytes("../../../../in.txt"), true);
 
             if (content.GetBitLength() >= _bitLength)
                 throw new Exception("File too long!");
@@ -43,33 +41,19 @@ namespace MyRSA
 
             BigInteger res = RSA_EncryptString(content, e, n);
 
-            File.WriteAllText("../../../../out1.txt", System.Convert.ToBase64String(res.ToByteArray()));
-
             _d = d;
             _n = n;
 
-            System.Diagnostics.Process txt = new System.Diagnostics.Process();
-            txt.StartInfo.FileName = "notepad.exe";
-            txt.StartInfo.Arguments = @"../../../../out1.txt";
-            txt.Start();
-
+            return res.ToByteArray();
         }
 
-        public void Decrypt()
+        public byte[] Decrypt(BigInteger content)
         {
             BigInteger d = _d;
             BigInteger n = _n;
 
-            BigInteger content = new BigInteger(System.Convert.FromBase64String(File.ReadAllText("../../../../out1.txt")));
-
             BigInteger res = RSA_DecryptString(content, d, n);
-
-            File.WriteAllBytes("../../../../out2.txt", res.ToByteArray(true));
-
-            System.Diagnostics.Process txt = new System.Diagnostics.Process();
-            txt.StartInfo.FileName = "notepad.exe";
-            txt.StartInfo.Arguments = @"../../../../out2.txt";
-            txt.Start();
+            return res.ToByteArray(true);           
         }
 
         private BigInteger RSA_EncryptString(BigInteger s, BigInteger e, BigInteger n)

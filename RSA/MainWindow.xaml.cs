@@ -2,6 +2,7 @@
 using MyRSA;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -60,10 +61,34 @@ namespace RSA
 
         private void RSAtest_Click(object sender, RoutedEventArgs e)
         {
-            RSAService service = new RSAService(SimplifyTestMode.SoloveyShtrasen,0.99,512);
+            try
+            {
+                RSAService service = new RSAService(SimplifyTestMode.SoloveyShtrasen, 0.99, 512);
 
-            service.Encrypt();
-            service.Decrypt();
+                BigInteger content = new BigInteger(File.ReadAllBytes("../../../../in.txt"), true);
+                File.WriteAllText("../../../../out1.txt", System.Convert.ToBase64String(service.Encrypt(content)));
+
+
+
+                System.Diagnostics.Process txt = new System.Diagnostics.Process();
+                txt.StartInfo.FileName = "notepad.exe";
+                txt.StartInfo.Arguments = @"../../../../out1.txt";
+                txt.Start();
+
+                BigInteger content1 = new BigInteger(System.Convert.FromBase64String(File.ReadAllText("../../../../out1.txt")));
+                File.WriteAllBytes("../../../../out2.txt", service.Decrypt(content1));
+
+                System.Diagnostics.Process txt1 = new System.Diagnostics.Process();
+                txt1.StartInfo.FileName = "notepad.exe";
+                txt1.StartInfo.Arguments = @"../../../../out2.txt";
+                txt1.Start();
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: "+ex.Message);
+            }
         }
     }
 }
